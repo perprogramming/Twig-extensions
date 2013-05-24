@@ -111,11 +111,22 @@ class Twig_Extensions_Extension_Gettext extends Twig_Extension {
     }
     
     public function pgettext($context, $message) {
-        return gettext($context . "\04" . $message);
+        $key = $context . "\04" . $message;
+        $ret = gettext($key);
+        if($ret==$key)
+            return $message;
+        return $ret;
     }
     
     public function npgettext($context, $msgid1, $msgid2, $n) {
-        return ngettext($context . "\04" . $msgid1, $context . "\04" . $msgid2, $n);
+        $key = $context . "\04" . $msgid1;
+        $key2 = $context . "\04" . $msgid2;
+        $ret =  ngettext($key, $key2, $n);
+        if($ret==$key)
+            return $msgid1;
+        if($ret==$key2)
+            return $msgid2;
+        return $ret;
     }
     
     public function dpgettext($context, $domain, $message) {
